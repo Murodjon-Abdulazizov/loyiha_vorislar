@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hayvonlar Akademiyasi - Premium</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --success: #00b894;
+            --danger: #ff7675;
+            --bg: #f0f3f7;
+            --white: #ffffff;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden;
+        }
+
+        h1 { color: var(--primary); text-align: center; margin-bottom: 25px; }
+
+        .menu-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px; width: 100%; max-width: 1000px;
+        }
+
+        .menu-btn {
+            padding: 25px; border: none; border-radius: 25px; color: white;
+            font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .menu-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
+
+        .btn-uy { background: linear-gradient(135deg, #55efc4, #00b894); }
+        .btn-yovvoyi { background: linear-gradient(135deg, #fab1a0, #ff7675); }
+        .btn-test { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); color: #2d3436; }
+        .btn-sort { background: linear-gradient(135deg, #81ecec, #00cec9); color: #2d3436; }
+        .btn-count { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
+        .btn-shadow { background: linear-gradient(135deg, #fd79a8, #e84393); }
+
+        #game-area { display: none; width: 100%; max-width: 1100px; }
+        .top-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--white); padding: 15px 30px; border-radius: 20px;
+            margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .card {
+            background: var(--white); padding: 15px; border-radius: 20px; text-align: center;
+            cursor: pointer; transition: 0.3s; box-shadow: 0 5px 10px rgba(0,0,0,0.05); border: 4px solid transparent;
+        }
+        .card img { width: 100%; height: 110px; object-fit: contain; }
+
+        /* TABRIK ANIMATSIYASI */
+        #celebration-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.7); z-index: 1000;
+            justify-content: center; align-items: center; pointer-events: none;
+        }
+
+        .barakalla-box {
+            background: white; padding: 40px; border-radius: 50%;
+            box-shadow: 0 0 50px rgba(108, 92, 231, 0.3);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .emoji-float { font-size: 4rem; display: block; margin-bottom: 10px; }
+        .barakalla-text { font-size: 2.5rem; font-weight: bold; color: var(--primary); display: block; }
+
+        /* SARALASH (RASMLI TUGMALAR) */
+        .sort-card {
+            width: 160px; height: 160px; border-radius: 30px; 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); overflow: hidden; border: 6px solid white;
+        }
+        .sort-card:hover { transform: scale(1.05); }
+        .sort-card img { width: 100%; height: 80%; object-fit: cover; }
+        .sort-card span { font-weight: bold; color: white; margin-top: 5px; font-size: 1.2rem; }
+
+        /* Soya o'yini */
+        .shadow-target-box { background: white; padding: 30px; border-radius: 30px; margin-bottom: 30px; display: inline-block; }
+        .shadow-img { width: 200px; height: 200px; object-fit: contain; filter: brightness(0); opacity: 0.8; }
+        
+        /* Topishmoq */
+        .mystery-box { width: 280px; height: 280px; margin: 0 auto; background: white; border-radius: 40px; padding: 20px; display: flex; align-items: center; justify-content: center; }
+        .mystery-img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.5s, filter 1.5s; opacity: 0; }
+        .blur { filter: blur(40px) grayscale(100%); }
+        .reveal { filter: blur(0) grayscale(0); opacity: 1 !important; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 999; }
+        .modal-content { background: white; padding: 40px; border-radius: 30px; text-align: center; width: 85%; max-width: 350px; }
+    </style>
+</head>
+<body>
+
+    <div id="celebration-overlay">
+        <div class="barakalla-box">
+            <span class="emoji-float">🥳</span>
+            <span class="barakalla-text">BARAKALLA!</span>
+            <div style="font-size: 2rem;">🌟✨🔥</div>
+        </div>
+    </div>
+
+    <div id="menu-screen">
+        <h1>🐾 Hayvonlar Akademiyasi</h1>
+        <div class="menu-container">
+            <button class="menu-btn btn-uy" onclick="initGame('uy')">🏠 Uy Hayvonlari</button>
+            <button class="menu-btn btn-yovvoyi" onclick="initGame('yovvoyi')">🌳 Yovvoyi</button>
+            <button class="menu-btn btn-test" onclick="initGame('test')">🎵 Ovozli Test</button>
+            <button class="menu-btn btn-sort" onclick="initGame('sort')">🔄 Saralash</button>
+            <button class="menu-btn btn-count" onclick="initGame('count')">⏲️ Topishmoq</button>
+            <button class="menu-btn btn-shadow" onclick="initGame('shadow')">🌑 Soyasini top!</button>
+        </div>
+    </div>
+
+    <div id="game-area">
+        <div class="top-bar">
+            <button onclick="goHome()">⬅️ Menyu</button>
+            <h2 id="game-title" style="margin:0; color:var(--primary);"></h2>
+            <div style="font-size:1.5rem;">⭐ <span id="stars">0</span></div>
+        </div>
+
+        <div id="shadow-game-view" style="display:none; text-align:center;">
+            <div class="shadow-target-box">
+                <img id="shadow-main" class="shadow-img" src="">
+            </div>
+            <div id="shadow-options" class="board"></div>
+        </div>
+
+        <div id="standard-board" class="board"></div>
+
+        <div id="sort-board" style="display:none; text-align:center;">
+            <p style="font-size: 1.5rem; color: var(--primary); font-weight: bold; margin-bottom: 20px;">Qayerda yashaydi?</p>
+            <div style="display:flex; gap:30px; justify-content:center; margin-bottom:30px;">
+                <div class="sort-card btn-uy" onclick="checkSort('uy')">
+                    <img src="images/uy_bg.png" alt="Uy"> <span>UY</span>
+                </div>
+                <div class="sort-card btn-yovvoyi" onclick="checkSort('yovvoyi')">
+                    <img src="images/ormon_bg.png" alt="O'rmon"> <span>O'RMON</span>
+                </div>
+            </div>
+            <div id="sort-target"></div>
+        </div>
+
+        <div id="countdown-view" style="display:none; text-align:center;">
+            <div id="timer" style="font-size:5rem; font-weight:bold; color:var(--danger);">10</div>
+            <div class="mystery-box"><img id="mystery-img" class="mystery-img" src=""></div>
+            <h2 id="reveal-text" style="display:none; margin-top:20px; font-size:2rem; color:var(--primary);"></h2>
+            <button id="next-btn" class="menu-btn btn-uy" style="margin:20px auto; display:none;" onclick="startCountCycle()">Keyingisi ➡️</button>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>O'yin Tugadi!</h2>
+            <div id="final-score" style="font-size:3rem; font-weight:bold; color:var(--success); margin:20px 0;">0/10</div>
+            <button class="menu-btn btn-uy" style="width:100%" onclick="goHome()">Qaytish</button>
+        </div>
+    </div>
+
+    <script>
+        const animalsData = {
+            uy: [
+                { id: 'it', name: 'It', audio: 'sounds/it.mp3', nameAudio: 'sounds/it_nomi.mp3', img: 'images/it.png', type: 'uy' },
+                { id: 'mushuk', name: 'Mushuk', audio: 'sounds/mushuk.mp3', nameAudio: 'sounds/mushuk_nomi.mp3', img: 'images/mushuk.png', type: 'uy' },
+                { id: 'sigir', name: 'Sigir', audio: 'sounds/sigir.mp3', nameAudio: 'sounds/sigir_nomi.mp3', img: 'images/sigir.png', type: 'uy' },
+                { id: 'qoy', name: 'Qo\'y', audio: 'sounds/qoy.mp3', nameAudio: 'sounds/qoy_nomi.mp3', img: 'images/qoy.png', type: 'uy' },
+                { id: 'ot', name: 'Ot', audio: 'sounds/ot.mp3', nameAudio: 'sounds/ot_nomi.mp3', img: 'images/ot.png', type: 'uy' },
+                { id: 'eshak', name: 'Eshak', audio: 'sounds/eshak.mp3', nameAudio: 'sounds/eshak_nomi.mp3', img: 'images/eshak.png', type: 'uy' },
+                { id: 'tovuq', name: 'Tovuq', audio: 'sounds/tovuq.mp3', nameAudio: 'sounds/tovuq_nomi.mp3', img: 'images/tovuq.png', type: 'uy' },
+                { id: 'ordak', name: 'O\'rdak', audio: 'sounds/ordak.mp3', nameAudio: 'sounds/ordak_nomi.mp3', img: 'images/ordak.png', type: 'uy' },
+                { id: 'echki', name: 'Echki', audio: 'sounds/echki.mp3', nameAudio: 'sounds/echki_nomi.mp3', img: 'images/echki.png', type: 'uy' },
+                { id: 'quyon', name: 'Quyon', audio: 'sounds/quyon.mp3', nameAudio: 'sounds/quyon_nomi.mp3', img: 'images/quyon.png', type: 'uy' },
+                { id: 'tuya', name: 'Tuya', audio: 'sounds/tuya.mp3', nameAudio: 'sounds/tuya_nomi.mp3', img: 'images/tuya.png', type: 'uy' },
+                { id: 'goz', name: 'G\'oz', audio: 'sounds/goz.mp3', nameAudio: 'sounds/goz_nomi.mp3', img: 'images/goz.png', type: 'uy' }
+            ],
+            yovvoyi: [
+                { id: 'arslon', name: 'Arslon', audio: 'sounds/arslon.mp3', nameAudio: 'sounds/arslon_nomi.mp3', img: 'images/arslon.png', type: 'yovvoyi' },
+                { id: 'fil', name: 'Fil', audio: 'sounds/fil.mp3', nameAudio: 'sounds/fil_nomi.mp3', img: 'images/fil.png', type: 'yovvoyi' },
+                { id: 'bori', name: 'Bo\'ri', audio: 'sounds/bori.mp3', nameAudio: 'sounds/bori_nomi.mp3', img: 'images/bori.png', type: 'yovvoyi' },
+                { id: 'ayiq', name: 'Ayiq', audio: 'sounds/ayiq.mp3', nameAudio: 'sounds/ayiq_nomi.mp3', img: 'images/ayiq.png', type: 'yovvoyi' },
+                { id: 'yolbars', name: 'Yo\'lbars', audio: 'sounds/yolbars.mp3', nameAudio: 'sounds/yolbars_nomi.mp3', img: 'images/yolbars.png', type: 'yovvoyi' },
+                { id: 'tulki', name: 'Tulki', audio: 'sounds/tulki.mp3', nameAudio: 'sounds/tulki_nomi.mp3', img: 'images/tulki.png', type: 'yovvoyi' },
+                { id: 'maymun', name: 'Maymun', audio: 'sounds/maymun.mp3', nameAudio: 'sounds/maymun_nomi.mp3', img: 'images/maymun.png', type: 'yovvoyi' },
+                { id: 'jirafa', name: 'Jirafa', audio: 'sounds/jirafa.mp3', nameAudio: 'sounds/jirafa_nomi.mp3', img: 'images/jirafa.png', type: 'yovvoyi' },
+                { id: 'zebra', name: 'Zebra', audio: 'sounds/zebra.mp3', nameAudio: 'sounds/zebra_nomi.mp3', img: 'images/zebra.png', type: 'yovvoyi' },
+                { id: 'karkidon', name: 'Karkidon', audio: 'sounds/karkidon.mp3', nameAudio: 'sounds/karkidon_nomi.mp3', img: 'images/karkidon.png', type: 'yovvoyi' },
+                { id: 'begemot', name: 'Begemot', audio: 'sounds/begemot.mp3', nameAudio: 'sounds/begemot_nomi.mp3', img: 'images/begemot.png', type: 'yovvoyi' },
+                { id: 'qurbaqa', name: 'Qurbaqa', audio: 'sounds/qurbaqa.mp3', nameAudio: 'sounds/qurbaqa_nomi.mp3', img: 'images/qurbaqa.png', type: 'yovvoyi' }
+            ]
+        };
+
+        let score = 0, turn = 0, targetAnimal = null, gameList = [], timerInterval, currentMode;
+        const allAnimals = [...animalsData.uy, ...animalsData.yovvoyi];
+
+        function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
+
+        function showCelebration() {
+            const overlay = document.getElementById('celebration-overlay');
+            overlay.style.display = 'flex';
+            setTimeout(() => { overlay.style.display = 'none'; }, 1500);
+        }
+
+        function initGame(mode) {
+            currentMode = mode; score = 0; turn = 0;
+            document.getElementById('stars').innerText = "0";
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('game-area').style.display = 'block';
+            document.getElementById('standard-board').style.display = 'none';
+            document.getElementById('sort-board').style.display = 'none';
+            document.getElementById('countdown-view').style.display = 'none';
+            document.getElementById('shadow-game-view').style.display = 'none';
+
+            if(mode === 'uy' || mode === 'yovvoyi') {
+                gameList = shuffle([...animalsData[mode]]);
+                document.getElementById('game-title').innerText = "O'rganamiz";
+                renderStandard();
+            } else if(mode === 'test') {
+                document.getElementById('game-title').innerText = "Ovozli Test";
+                gameList = shuffle(allAnimals).slice(0, 10);
+                renderStandard(); startQuiz();
+            } else if(mode === 'sort') {
+                document.getElementById('game-title').innerText = "Saralash";
+                document.getElementById('sort-board').style.display = 'block';
+                gameList = shuffle(allAnimals).slice(0, 10);
+                showNextSort();
+            } else if(mode === 'count') {
+                document.getElementById('game-title').innerText = "Topishmoq";
+                document.getElementById('countdown-view').style.display = 'block';
+                gameList = shuffle(allAnimals).slice(0, 10);
+                startCountCycle();
+            } else if(mode === 'shadow') {
+                document.getElementById('game-title').innerText = "Soyasini top!";
+                document.getElementById('shadow-game-view').style.display = 'block';
+                gameList = shuffle(allAnimals).slice(0, 10);
+                showNextShadow();
+            }
+        }
+
+        function renderStandard() {
+            const board = document.getElementById('standard-board');
+            board.style.display = 'grid'; board.innerHTML = '';
+            let list = (currentMode === 'test') ? shuffle([...gameList]) : gameList;
+            list.forEach(a => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<img src="${a.img}"><p>${a.name}</p>`;
+                card.onclick = () => handleCardClick(a, card);
+                board.appendChild(card);
+            });
+        }
+
+        function handleCardClick(animal, el) {
+            if(currentMode === 'test') {
+                if(animal.id === targetAnimal.id) {
+                    el.style.borderColor = "var(--success)"; score++;
+                    document.getElementById('stars').innerText = score;
+                    playAudio('sounds/barakalla.mp3'); showCelebration();
+                    setTimeout(() => { turn++; startQuiz(); }, 2000);
+                } else { playAudio('sounds/notogri.mp3'); }
+            } else {
+                playAudio(animal.nameAudio);
+                setTimeout(() => playAudio(animal.audio), 2500);
+            }
+        }
+
+        function showNextSort() {
+            if(turn >= 10) { finishGame(); return; }
+            targetAnimal = gameList[turn];
+            document.getElementById('sort-target').innerHTML = `<div class="card" style="width:200px; margin:auto;"><img src="${targetAnimal.img}"><p>${targetAnimal.name}</p></div>`;
+            playAudio(targetAnimal.nameAudio);
+            setTimeout(() => playAudio(targetAnimal.audio), 2500);
+        }
+
+        function checkSort(type) {
+            if(type === targetAnimal.type) { 
+                playAudio('sounds/barakalla.mp3'); showCelebration(); score++; 
+            } else { playAudio('sounds/notogri.mp3'); }
+            document.getElementById('stars').innerText = score;
+            turn++; setTimeout(showNextSort, 2000);
+        }
+
+        function showNextShadow() {
+            if(turn >= 10) { finishGame(); return; }
+            targetAnimal = gameList[turn];
+            const shadowImg = document.getElementById('shadow-main');
+            shadowImg.src = targetAnimal.img;
+            shadowImg.style.filter = "brightness(0)";
+
+            const optionsBoard = document.getElementById('shadow-options');
+            optionsBoard.innerHTML = '';
+            let others = shuffle(allAnimals.filter(a => a.id !== targetAnimal.id)).slice(0, 3);
+            let choices = shuffle([targetAnimal, ...others]);
+
+            choices.forEach(a => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<img src="${a.img}"><p>${a.name}</p>`;
+                card.onclick = () => {
+                    if(a.id === targetAnimal.id) {
+                        shadowImg.style.filter = "brightness(1)";
+                        playAudio('sounds/barakalla.mp3'); showCelebration();
+                        score++; document.getElementById('stars').innerText = score;
+                        setTimeout(() => { turn++; showNextShadow(); }, 2000);
+                    } else { playAudio('sounds/notogri.mp3'); }
+                };
+                optionsBoard.appendChild(card);
+            });
+            playAudio('sounds/savol_soya.mp3');
+        }
+
+        function startQuiz() {
+            if(turn >= 10) { finishGame(); return; }
+            targetAnimal = gameList[turn]; renderStandard(); 
+            playAudio('sounds/savol_ovoz.mp3');
+            setTimeout(() => playAudio(targetAnimal.audio), 3500);
+        }
+
+        function startCountCycle() {
+            if(turn >= 10) { finishGame(); return; }
+            clearInterval(timerInterval);
+            let count = 10; targetAnimal = gameList[turn];
+            const img = document.getElementById('mystery-img');
+            img.style.opacity = '0'; img.className = 'mystery-img blur'; img.src = targetAnimal.img;
+            document.getElementById('reveal-text').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('timer').innerText = count;
+
+            playAudio('sounds/savol_sanoq.mp3');
+            setTimeout(() => {
+                img.style.opacity = '0.6';
+                playAudio(targetAnimal.audio);
+                timerInterval = setInterval(() => {
+                    if(count > 0) playAudio(`sounds/${count}.mp3`);
+                    document.getElementById('timer').innerText = count;
+                    if(count <= 0) { clearInterval(timerInterval); revealAnimal(); }
+                    count--;
+                }, 1500);
+            }, 3000);
+        }
+
+        function revealAnimal() {
+            const img = document.getElementById('mystery-img');
+            img.className = 'mystery-img reveal';
+            playAudio('sounds/bu.mp3'); showCelebration();
+            setTimeout(() => {
+                playAudio(targetAnimal.nameAudio);
+                document.getElementById('reveal-text').innerText = "Bu — " + targetAnimal.name + "!";
+                document.getElementById('reveal-text').style.display = 'block';
+                document.getElementById('next-btn').style.display = 'block';
+                turn++;
+            }, 1500);
+        }
+
+        function finishGame() {
+            playAudio('sounds/tugadi.mp3');
+            document.getElementById('final-score').innerText = `${score}/${turn}`;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function playAudio(src) { new Audio(src).play().catch(e => {}); }
+        function goHome() { location.reload(); }
+    </script>
+</body>
+</html>
