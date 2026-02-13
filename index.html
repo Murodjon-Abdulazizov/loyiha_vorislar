@@ -393,7 +393,7 @@
                     el.style.borderColor = "var(--success)"; score++;
                     document.getElementById('stars').innerText = score;
                     playAudio('sounds/barakalla.mp3'); showCelebration();
-                    setTimeout(() => { turn++; startQuiz(); }, 2000);
+                    setTimeout(() => { turn++; startQuiz(); }, 4000);
                 } else { playAudio('sounds/notogri.mp3'); }
             } else {
                 playAudio(animal.nameAudio);
@@ -414,7 +414,7 @@
                 playAudio('sounds/barakalla.mp3'); showCelebration(); score++; 
             } else { playAudio('sounds/notogri.mp3'); }
             document.getElementById('stars').innerText = score;
-            turn++; setTimeout(showNextSort, 2000);
+            turn++; setTimeout(showNextSort, 4000);
         }
 
         function showNextShadow() {
@@ -438,7 +438,7 @@
                         shadowImg.style.filter = "brightness(1)";
                         playAudio('sounds/barakalla.mp3'); showCelebration();
                         score++; document.getElementById('stars').innerText = score;
-                        setTimeout(() => { turn++; showNextShadow(); }, 2000);
+                        setTimeout(() => { turn++; showNextShadow(); }, 4000);
                     } else { playAudio('sounds/notogri.mp3'); }
                 };
                 optionsBoard.appendChild(card);
