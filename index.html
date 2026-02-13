@@ -117,6 +117,81 @@
 
         /* KEYBOARD/MOUSE FOCUS */
         button:focus { outline: none; }
+        /* ============================= */
+/*        MOBILE VERSION         */
+/* ============================= */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 8px;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .menu-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .menu-btn {
+        padding: 18px 8px;
+        font-size: 0.9rem;
+        border-radius: 18px;
+    }
+
+    .board {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .card {
+        padding: 10px;
+        border-radius: 16px;
+    }
+
+    .card img {
+        height: 90px;
+    }
+
+    .card p {
+        font-size: 0.85rem;
+    }
+
+    .top-bar {
+        padding: 8px 10px;
+    }
+
+    .top-bar h3 {
+        font-size: 0.9rem;
+    }
+
+    .shadow-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .mystery-box {
+        width: 160px;
+        height: 160px;
+    }
+
+    #timer {
+        font-size: 2.5rem;
+    }
+
+    .modal-content {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    #final-score {
+        font-size: 2rem;
+    }
+}
+
     </style>
 </head>
 <body>
