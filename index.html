@@ -16,28 +16,24 @@
         body {
             background: var(--bg);
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            margin: 0; padding: 10px; /* Telefonda chetlar qisildi */
+            margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
             overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        h1 { color: var(--primary); text-align: center; margin-bottom: 25px; font-size: 1.8rem; }
+        h1 { color: var(--primary); text-align: center; margin-bottom: 25px; }
 
         .menu-container {
-            display: grid; 
-            /* Kompyuterda 3-4 ta, telefonda 1-2 ta ustun bo'ladi */
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 15px; width: 100%; max-width: 1000px;
         }
 
         .menu-btn {
-            padding: 25px 15px; border: none; border-radius: 25px; color: white;
-            font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s;
+            padding: 25px; border: none; border-radius: 25px; color: white;
+            font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s;
             box-shadow: 0 8px 15px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 10px;
         }
         .menu-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
-        .menu-btn:active { transform: scale(0.95); }
 
         .btn-uy { background: linear-gradient(135deg, #55efc4, #00b894); }
         .btn-yovvoyi { background: linear-gradient(135deg, #fab1a0, #ff7675); }
@@ -47,26 +43,18 @@
         .btn-shadow { background: linear-gradient(135deg, #fd79a8, #e84393); }
 
         #game-area { display: none; width: 100%; max-width: 1100px; }
-        
         .top-bar {
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--white); padding: 10px 20px; border-radius: 20px;
+            background: var(--white); padding: 15px 30px; border-radius: 20px;
             margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* O'yin taxtasi - Mobil qurilmada 2 ta ustun, kompyuterda ko'proq */
-        .board { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
-            gap: 12px; 
-        }
-
+        .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         .card {
             background: var(--white); padding: 15px; border-radius: 20px; text-align: center;
             cursor: pointer; transition: 0.3s; box-shadow: 0 5px 10px rgba(0,0,0,0.05); border: 4px solid transparent;
         }
-        .card img { width: 100%; height: 100px; object-fit: contain; }
-        .card p { margin: 10px 0 0; font-weight: bold; font-size: 1rem; }
+        .card img { width: 100%; height: 110px; object-fit: contain; }
 
         /* TABRIK ANIMATSIYASI */
         #celebration-overlay {
@@ -76,7 +64,7 @@
         }
 
         .barakalla-box {
-            background: white; padding: 30px; border-radius: 50%;
+            background: white; padding: 40px; border-radius: 50%;
             box-shadow: 0 0 50px rgba(108, 92, 231, 0.3);
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-align: center;
@@ -84,114 +72,160 @@
 
         @keyframes popIn {
             0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1.2); opacity: 1; }
         }
 
-        .emoji-float { font-size: 3rem; display: block; margin-bottom: 10px; }
-        .barakalla-text { font-size: 2rem; font-weight: bold; color: var(--primary); display: block; }
+        .emoji-float { font-size: 4rem; display: block; margin-bottom: 10px; }
+        .barakalla-text { font-size: 2.5rem; font-weight: bold; color: var(--primary); display: block; }
 
         /* SARALASH (RASMLI TUGMALAR) */
-        .sort-card-container { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; }
-        
         .sort-card {
-            width: 45%; max-width: 160px; aspect-ratio: 1/1; border-radius: 25px; 
+            width: 160px; height: 160px; border-radius: 30px; 
             display: flex; flex-direction: column; align-items: center; 
             justify-content: center; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); overflow: hidden; border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); overflow: hidden; border: 6px solid white;
         }
-        .sort-card img { width: 100%; height: 75%; object-fit: cover; }
-        .sort-card span { font-weight: bold; color: white; margin-top: 5px; font-size: 1rem; }
+        .sort-card:hover { transform: scale(1.05); }
+        .sort-card img { width: 100%; height: 80%; object-fit: cover; }
+        .sort-card span { font-weight: bold; color: white; margin-top: 5px; font-size: 1.2rem; }
 
         /* Soya o'yini */
-        .shadow-target-box { background: white; padding: 20px; border-radius: 30px; margin-bottom: 20px; display: inline-block; }
-        .shadow-img { width: 150px; height: 150px; object-fit: contain; }
+        .shadow-target-box { background: white; padding: 30px; border-radius: 30px; margin-bottom: 30px; display: inline-block; }
+        .shadow-img { width: 200px; height: 200px; object-fit: contain; filter: brightness(0); opacity: 0.8; }
         
         /* Topishmoq */
-        .mystery-box { width: 80vw; max-width: 280px; height: 80vw; max-height: 280px; margin: 0 auto; background: white; border-radius: 40px; padding: 20px; display: flex; align-items: center; justify-content: center; }
+        .mystery-box { width: 280px; height: 280px; margin: 0 auto; background: white; border-radius: 40px; padding: 20px; display: flex; align-items: center; justify-content: center; }
         .mystery-img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.5s, filter 1.5s; opacity: 0; }
-        .blur { filter: blur(30px) grayscale(100%); }
+        .blur { filter: blur(40px) grayscale(100%); }
         .reveal { filter: blur(0) grayscale(0); opacity: 1 !important; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 999; }
-        .modal-content { background: white; padding: 30px; border-radius: 30px; text-align: center; width: 80%; max-width: 350px; }
-
-        /* KEYBOARD/MOUSE FOCUS */
-        button:focus { outline: none; }
-        /* ============================= */
-/*        MOBILE VERSION         */
-/* ============================= */
-
-@media (max-width: 600px) {
-
-    body {
-        padding: 8px;
+        .modal-content { background: white; padding: 40px; border-radius: 30px; text-align: center; width: 85%; max-width: 350px; }
+        :root {
+        --primary: #6c5ce7;
+        --success: #00b894;
+        --danger: #ff7675;
+        --bg: #f0f3f7;
+        --white: #ffffff;
     }
 
-    h1 {
-        font-size: 1.4rem;
+    body {
+        background: var(--bg);
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        margin: 0; 
+        padding: 10px; /* Telefon uchun kichikroq padding */
+        display: flex; 
+        flex-direction: column; 
+        align-items: center;
+        overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent; /* Mobil bosish effektini olib tashlash */
+    }
+
+    h1 { 
+        color: var(--primary); 
+        text-align: center; 
+        margin: 15px 0; 
+        font-size: 1.8rem; /* Mobil uchun mosroq o'lcham */
     }
 
     .menu-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        display: grid; 
+        grid-template-columns: repeat(2, 1fr); /* Telefonda 2 ustun */
+        gap: 12px; 
+        width: 100%; 
+        max-width: 500px;
+        padding: 5px;
+    }
+
+    /* Agar ekran juda kichik bo'lsa (masalan iPhone SE) */
+    @media (max-width: 360px) {
+        .menu-container {
+            grid-template-columns: 1fr; /* 1 ta ustun */
+        }
     }
 
     .menu-btn {
-        padding: 18px 8px;
-        font-size: 0.9rem;
-        border-radius: 18px;
-    }
-
-    .board {
-        grid-template-columns: repeat(2, 1fr);
+        padding: 20px 10px; 
+        border: none; 
+        border-radius: 20px; 
+        color: white;
+        font-size: 1rem; 
+        font-weight: bold; 
+        cursor: pointer; 
+        transition: 0.2s;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1); 
+        display: flex; 
+        flex-direction: column; /* Ikonka tepada, matn pastda */
+        align-items: center; 
+        justify-content: center; 
         gap: 8px;
     }
 
-    .card {
-        padding: 10px;
-        border-radius: 16px;
-    }
+    .menu-btn:active { transform: scale(0.95); } /* Bosilganda effekt */
 
-    .card img {
-        height: 90px;
-    }
-
-    .card p {
-        font-size: 0.85rem;
-    }
+    #game-area { width: 100%; max-width: 600px; }
 
     .top-bar {
-        padding: 8px 10px;
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+        background: var(--white); 
+        padding: 10px 15px; 
+        border-radius: 15px;
+        margin-bottom: 15px; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
-    .top-bar h3 {
-        font-size: 0.9rem;
+    /* O'yin maydoni - Rasmlar uchun */
+    .board { 
+        display: grid; 
+        grid-template-columns: repeat(2, 1fr); /* 2 tadan rasm */
+        gap: 10px; 
+        width: 100%;
     }
 
-    .shadow-img {
-        width: 100px;
-        height: 100px;
+    .card {
+        background: var(--white); 
+        padding: 10px; 
+        border-radius: 15px; 
+        text-align: center;
+        cursor: pointer; 
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+        border: 3px solid transparent;
     }
 
-    .mystery-box {
-        width: 160px;
-        height: 160px;
+    .card img { 
+        width: 100%; 
+        height: 90px; /* Telefon uchun balandlikni pasaytirdik */
+        object-fit: contain; 
     }
 
-    #timer {
-        font-size: 2.5rem;
-    }
+    .card p { margin: 8px 0 0; font-size: 0.9rem; font-weight: bold; }
 
-    .modal-content {
-        padding: 20px;
+    /* Saralash va Soya o'yini rasmlari */
+    .shadow-img { width: 150px; height: 150px; }
+    
+    .sort-card {
+        width: 130px; 
+        height: 130px; 
         border-radius: 20px;
     }
 
-    #final-score {
-        font-size: 2rem;
+    .mystery-box { 
+        width: 220px; 
+        height: 220px; 
+        border-radius: 30px; 
     }
-}
 
+    /* Tabrik oynasi mobil uchun */
+    .barakalla-text { font-size: 1.8rem; }
+    .emoji-float { font-size: 3rem; }
+
+    /* Modal (Tugash oynasi) */
+    .modal-content {
+        padding: 25px;
+        width: 80%;
+    }
     </style>
 </head>
 <body>
@@ -200,7 +234,7 @@
         <div class="barakalla-box">
             <span class="emoji-float">🥳</span>
             <span class="barakalla-text">BARAKALLA!</span>
-            <div style="font-size: 1.5rem;">🌟✨🔥</div>
+            <div style="font-size: 2rem;">🌟✨🔥</div>
         </div>
     </div>
 
@@ -218,9 +252,9 @@
 
     <div id="game-area">
         <div class="top-bar">
-            <button onclick="goHome()" style="padding: 10px 15px; border-radius: 12px; border:none; background:#eee; cursor:pointer; font-weight:bold;">⬅️ Menyu</button>
-            <h2 id="game-title" style="margin:0; color:var(--primary); font-size: 1.2rem;"></h2>
-            <div style="font-size:1.2rem;">⭐ <span id="stars">0</span></div>
+            <button onclick="goHome()">⬅️ Menyu</button>
+            <h2 id="game-title" style="margin:0; color:var(--primary);"></h2>
+            <div style="font-size:1.5rem;">⭐ <span id="stars">0</span></div>
         </div>
 
         <div id="shadow-game-view" style="display:none; text-align:center;">
@@ -233,8 +267,8 @@
         <div id="standard-board" class="board"></div>
 
         <div id="sort-board" style="display:none; text-align:center;">
-            <p style="font-size: 1.2rem; color: var(--primary); font-weight: bold; margin-bottom: 20px;">Qayerda yashaydi?</p>
-            <div class="sort-card-container">
+            <p style="font-size: 1.5rem; color: var(--primary); font-weight: bold; margin-bottom: 20px;">Qayerda yashaydi?</p>
+            <div style="display:flex; gap:30px; justify-content:center; margin-bottom:30px;">
                 <div class="sort-card btn-uy" onclick="checkSort('uy')">
                     <img src="images/uy_bg.png" alt="Uy"> <span>UY</span>
                 </div>
@@ -246,23 +280,22 @@
         </div>
 
         <div id="countdown-view" style="display:none; text-align:center;">
-            <div id="timer" style="font-size:4rem; font-weight:bold; color:var(--danger);">10</div>
+            <div id="timer" style="font-size:5rem; font-weight:bold; color:var(--danger);">10</div>
             <div class="mystery-box"><img id="mystery-img" class="mystery-img" src=""></div>
-            <h2 id="reveal-text" style="display:none; margin-top:20px; font-size:1.5rem; color:var(--primary);"></h2>
-            <button id="next-btn" class="menu-btn btn-uy" style="margin:20px auto; display:none; width: 100%; max-width: 250px;" onclick="startCountCycle()">Keyingisi ➡️</button>
+            <h2 id="reveal-text" style="display:none; margin-top:20px; font-size:2rem; color:var(--primary);"></h2>
+            <button id="next-btn" class="menu-btn btn-uy" style="margin:20px auto; display:none;" onclick="startCountCycle()">Keyingisi ➡️</button>
         </div>
     </div>
 
     <div id="modal" class="modal">
         <div class="modal-content">
             <h2>O'yin Tugadi!</h2>
-            <div id="final-score" style="font-size:2.5rem; font-weight:bold; color:var(--success); margin:20px 0;">0/10</div>
+            <div id="final-score" style="font-size:3rem; font-weight:bold; color:var(--success); margin:20px 0;">0/10</div>
             <button class="menu-btn btn-uy" style="width:100%" onclick="goHome()">Qaytish</button>
         </div>
     </div>
 
     <script>
-        // SCRIPT QISMI O'ZGARISHSIZ QOLDI (Siz yuborgan mantiq to'liq saqlangan)
         const animalsData = {
             uy: [
                 { id: 'it', name: 'It', audio: 'sounds/it.mp3', nameAudio: 'sounds/it_nomi.mp3', img: 'images/it.png', type: 'uy' },
@@ -371,7 +404,7 @@
         function showNextSort() {
             if(turn >= 10) { finishGame(); return; }
             targetAnimal = gameList[turn];
-            document.getElementById('sort-target').innerHTML = `<div class="card" style="width:160px; margin:auto;"><img src="${targetAnimal.img}"><p>${targetAnimal.name}</p></div>`;
+            document.getElementById('sort-target').innerHTML = `<div class="card" style="width:200px; margin:auto;"><img src="${targetAnimal.img}"><p>${targetAnimal.name}</p></div>`;
             playAudio(targetAnimal.nameAudio);
             setTimeout(() => playAudio(targetAnimal.audio), 2500);
         }
