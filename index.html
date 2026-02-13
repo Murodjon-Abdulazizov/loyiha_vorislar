@@ -2,8 +2,8 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hayvonlar Akademiyasi - Premium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hayvonlar Akademiyasi - Mobile Premium</title>
     <style>
         :root {
             --primary: #6c5ce7;
@@ -11,130 +11,134 @@
             --danger: #ff7675;
             --bg: #f0f3f7;
             --white: #ffffff;
+            --dark: #2d3436;
         }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background: var(--bg);
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            margin: 0; padding: 20px;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0; padding: 10px;
             display: flex; flex-direction: column; align-items: center;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        h1 { color: var(--primary); text-align: center; margin-bottom: 25px; }
+        h1 { color: var(--primary); text-align: center; margin: 10px 0 20px; font-size: 1.6rem; }
 
+        /* MENU */
         .menu-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px; width: 100%; max-width: 1000px;
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* Telefonda 2 ustun */
+            gap: 12px; 
+            width: 100%; 
+            max-width: 500px;
         }
 
         .menu-btn {
-            padding: 25px; border: none; border-radius: 25px; color: white;
-            font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 20px 10px; border: none; border-radius: 20px; color: white;
+            font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
         }
-        .menu-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
+        .menu-btn:active { transform: scale(0.95); }
 
         .btn-uy { background: linear-gradient(135deg, #55efc4, #00b894); }
         .btn-yovvoyi { background: linear-gradient(135deg, #fab1a0, #ff7675); }
-        .btn-test { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); color: #2d3436; }
-        .btn-sort { background: linear-gradient(135deg, #81ecec, #00cec9); color: #2d3436; }
+        .btn-test { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); color: var(--dark); }
+        .btn-sort { background: linear-gradient(135deg, #81ecec, #00cec9); color: var(--dark); }
         .btn-count { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
         .btn-shadow { background: linear-gradient(135deg, #fd79a8, #e84393); }
 
-        #game-area { display: none; width: 100%; max-width: 1100px; }
+        /* GAME AREA */
+        #game-area { display: none; width: 100%; max-width: 600px; }
+        
         .top-bar {
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--white); padding: 15px 30px; border-radius: 20px;
-            margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            background: var(--white); padding: 10px 15px; border-radius: 15px;
+            margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .back-btn { 
+            border: none; background: #dfe6e9; padding: 8px 12px; 
+            border-radius: 10px; font-weight: bold; cursor: pointer; 
+        }
+
+        /* BOARD & CARDS */
+        .board { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* Telefonda 2 tadan rasm */
+            gap: 10px; 
+        }
+
         .card {
-            background: var(--white); padding: 15px; border-radius: 20px; text-align: center;
-            cursor: pointer; transition: 0.3s; box-shadow: 0 5px 10px rgba(0,0,0,0.05); border: 4px solid transparent;
+            background: var(--white); padding: 12px; border-radius: 18px; text-align: center;
+            cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 3px solid transparent;
         }
-        .card img { width: 100%; height: 110px; object-fit: contain; }
+        .card img { width: 100%; height: 100px; object-fit: contain; }
+        .card p { margin: 8px 0 0; font-size: 0.9rem; font-weight: bold; color: var(--dark); }
 
-        /* TABRIK ANIMATSIYASI */
+        /* SPECIAL VIEWS */
+        .shadow-target-box { background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; }
+        .shadow-img { width: 120px; height: 120px; object-fit: contain; }
+
+        .sort-card {
+            flex: 1; height: 100px; border-radius: 20px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 4px solid white; box-shadow: 0 5px 10px rgba(0,0,0,0.1); overflow: hidden;
+        }
+        .sort-card img { width: 100%; height: 70%; object-fit: cover; }
+        .sort-card span { font-weight: bold; color: white; font-size: 0.8rem; }
+
+        .mystery-box { width: 200px; height: 200px; margin: 0 auto; background: white; border-radius: 30px; display: flex; align-items: center; justify-content: center; }
+        .mystery-img { width: 80%; height: 80%; object-fit: contain; opacity: 0; }
+        .blur { filter: blur(30px) grayscale(100%); }
+        .reveal { filter: blur(0) grayscale(0); opacity: 1 !important; transition: 0.8s; }
+
+        /* OVERLAYS */
         #celebration-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.7); z-index: 1000;
+            background: rgba(255,255,255,0.8); z-index: 1000;
             justify-content: center; align-items: center; pointer-events: none;
         }
+        .barakalla-box { text-align: center; animation: pop 0.5s cubic-bezier(0.17, 0.88, 0.32, 1.27); }
+        @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1.1); } }
 
-        .barakalla-box {
-            background: white; padding: 40px; border-radius: 50%;
-            box-shadow: 0 0 50px rgba(108, 92, 231, 0.3);
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1.2); opacity: 1; }
-        }
-
-        .emoji-float { font-size: 4rem; display: block; margin-bottom: 10px; }
-        .barakalla-text { font-size: 2.5rem; font-weight: bold; color: var(--primary); display: block; }
-
-        /* SARALASH (RASMLI TUGMALAR) */
-        .sort-card {
-            width: 160px; height: 160px; border-radius: 30px; 
-            display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); overflow: hidden; border: 6px solid white;
-        }
-        .sort-card:hover { transform: scale(1.05); }
-        .sort-card img { width: 100%; height: 80%; object-fit: cover; }
-        .sort-card span { font-weight: bold; color: white; margin-top: 5px; font-size: 1.2rem; }
-
-        /* Soya o'yini */
-        .shadow-target-box { background: white; padding: 30px; border-radius: 30px; margin-bottom: 30px; display: inline-block; }
-        .shadow-img { width: 200px; height: 200px; object-fit: contain; filter: brightness(0); opacity: 0.8; }
-        
-        /* Topishmoq */
-        .mystery-box { width: 280px; height: 280px; margin: 0 auto; background: white; border-radius: 40px; padding: 20px; display: flex; align-items: center; justify-content: center; }
-        .mystery-img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.5s, filter 1.5s; opacity: 0; }
-        .blur { filter: blur(40px) grayscale(100%); }
-        .reveal { filter: blur(0) grayscale(0); opacity: 1 !important; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 999; }
-        .modal-content { background: white; padding: 40px; border-radius: 30px; text-align: center; width: 85%; max-width: 350px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
+        .modal-content { background: white; padding: 30px; border-radius: 25px; text-align: center; width: 100%; max-width: 300px; }
     </style>
 </head>
 <body>
 
     <div id="celebration-overlay">
         <div class="barakalla-box">
-            <span class="emoji-float">🥳</span>
-            <span class="barakalla-text">BARAKALLA!</span>
-            <div style="font-size: 2rem;">🌟✨🔥</div>
+            <div style="font-size: 4rem;">🥳</div>
+            <div style="font-size: 2rem; font-weight: bold; color: var(--primary);">BARAKALLA!</div>
         </div>
     </div>
 
     <div id="menu-screen">
         <h1>🐾 Hayvonlar Akademiyasi</h1>
         <div class="menu-container">
-            <button class="menu-btn btn-uy" onclick="initGame('uy')">🏠 Uy Hayvonlari</button>
-            <button class="menu-btn btn-yovvoyi" onclick="initGame('yovvoyi')">🌳 Yovvoyi</button>
-            <button class="menu-btn btn-test" onclick="initGame('test')">🎵 Ovozli Test</button>
-            <button class="menu-btn btn-sort" onclick="initGame('sort')">🔄 Saralash</button>
-            <button class="menu-btn btn-count" onclick="initGame('count')">⏲️ Topishmoq</button>
-            <button class="menu-btn btn-shadow" onclick="initGame('shadow')">🌑 Soyasini top!</button>
+            <button class="menu-btn btn-uy" onclick="initGame('uy')"><span>🏠</span>Uy Hayvonlari</button>
+            <button class="menu-btn btn-yovvoyi" onclick="initGame('yovvoyi')"><span>🌳</span>Yovvoyi</button>
+            <button class="menu-btn btn-test" onclick="initGame('test')"><span>🎵</span>Ovozli Test</button>
+            <button class="menu-btn btn-sort" onclick="initGame('sort')"><span>🔄</span>Saralash</button>
+            <button class="menu-btn btn-count" onclick="initGame('count')"><span>⏲️</span>Topishmoq</button>
+            <button class="menu-btn btn-shadow" onclick="initGame('shadow')"><span>🌑</span>Soya</button>
         </div>
     </div>
 
     <div id="game-area">
         <div class="top-bar">
-            <button onclick="goHome()">⬅️ Menyu</button>
-            <h2 id="game-title" style="margin:0; color:var(--primary);"></h2>
-            <div style="font-size:1.5rem;">⭐ <span id="stars">0</span></div>
+            <button class="back-btn" onclick="goHome()">⬅️</button>
+            <h3 id="game-title" style="margin:0; font-size: 1rem; color:var(--primary);"></h3>
+            <div style="font-weight:bold;">⭐ <span id="stars">0</span></div>
         </div>
 
         <div id="shadow-game-view" style="display:none; text-align:center;">
             <div class="shadow-target-box">
-                <img id="shadow-main" class="shadow-img" src="">
+                <img id="shadow-main" class="shadow-img" src="" style="filter: brightness(0);">
             </div>
             <div id="shadow-options" class="board"></div>
         </div>
@@ -142,31 +146,31 @@
         <div id="standard-board" class="board"></div>
 
         <div id="sort-board" style="display:none; text-align:center;">
-            <p style="font-size: 1.5rem; color: var(--primary); font-weight: bold; margin-bottom: 20px;">Qayerda yashaydi?</p>
-            <div style="display:flex; gap:30px; justify-content:center; margin-bottom:30px;">
+            <p style="font-weight:bold; color:var(--primary);">Qayerda yashaydi?</p>
+            <div style="display:flex; gap:15px; margin-bottom:20px;">
                 <div class="sort-card btn-uy" onclick="checkSort('uy')">
-                    <img src="images/uy_bg.png" alt="Uy"> <span>UY</span>
+                    <img src="images/uy_bg.png" alt="Uy"> <span>UYDA</span>
                 </div>
                 <div class="sort-card btn-yovvoyi" onclick="checkSort('yovvoyi')">
-                    <img src="images/ormon_bg.png" alt="O'rmon"> <span>O'RMON</span>
+                    <img src="images/ormon_bg.png" alt="O'rmon"> <span>O'RMONDA</span>
                 </div>
             </div>
             <div id="sort-target"></div>
         </div>
 
         <div id="countdown-view" style="display:none; text-align:center;">
-            <div id="timer" style="font-size:5rem; font-weight:bold; color:var(--danger);">10</div>
+            <div id="timer" style="font-size:3rem; font-weight:bold; color:var(--danger); margin-bottom:10px;">10</div>
             <div class="mystery-box"><img id="mystery-img" class="mystery-img" src=""></div>
-            <h2 id="reveal-text" style="display:none; margin-top:20px; font-size:2rem; color:var(--primary);"></h2>
-            <button id="next-btn" class="menu-btn btn-uy" style="margin:20px auto; display:none;" onclick="startCountCycle()">Keyingisi ➡️</button>
+            <h3 id="reveal-text" style="display:none; color:var(--primary);"></h3>
+            <button id="next-btn" class="menu-btn btn-uy" style="margin:15px auto; display:none; width:100%;" onclick="startCountCycle()">Keyingisi ➡️</button>
         </div>
     </div>
 
     <div id="modal" class="modal">
         <div class="modal-content">
             <h2>O'yin Tugadi!</h2>
-            <div id="final-score" style="font-size:3rem; font-weight:bold; color:var(--success); margin:20px 0;">0/10</div>
-            <button class="menu-btn btn-uy" style="width:100%" onclick="goHome()">Qaytish</button>
+            <div id="final-score" style="font-size:2.5rem; font-weight:bold; color:var(--success); margin:15px 0;">0/10</div>
+            <button class="menu-btn btn-uy" style="width:100%" onclick="goHome()">Menyoga qaytish</button>
         </div>
     </div>
 
@@ -182,9 +186,7 @@
                 { id: 'tovuq', name: 'Tovuq', audio: 'sounds/tovuq.mp3', nameAudio: 'sounds/tovuq_nomi.mp3', img: 'images/tovuq.png', type: 'uy' },
                 { id: 'ordak', name: 'O\'rdak', audio: 'sounds/ordak.mp3', nameAudio: 'sounds/ordak_nomi.mp3', img: 'images/ordak.png', type: 'uy' },
                 { id: 'echki', name: 'Echki', audio: 'sounds/echki.mp3', nameAudio: 'sounds/echki_nomi.mp3', img: 'images/echki.png', type: 'uy' },
-                { id: 'quyon', name: 'Quyon', audio: 'sounds/quyon.mp3', nameAudio: 'sounds/quyon_nomi.mp3', img: 'images/quyon.png', type: 'uy' },
-                { id: 'tuya', name: 'Tuya', audio: 'sounds/tuya.mp3', nameAudio: 'sounds/tuya_nomi.mp3', img: 'images/tuya.png', type: 'uy' },
-                { id: 'goz', name: 'G\'oz', audio: 'sounds/goz.mp3', nameAudio: 'sounds/goz_nomi.mp3', img: 'images/goz.png', type: 'uy' }
+                { id: 'quyon', name: 'Quyon', audio: 'sounds/quyon.mp3', nameAudio: 'sounds/quyon_nomi.mp3', img: 'images/quyon.png', type: 'uy' }
             ],
             yovvoyi: [
                 { id: 'arslon', name: 'Arslon', audio: 'sounds/arslon.mp3', nameAudio: 'sounds/arslon_nomi.mp3', img: 'images/arslon.png', type: 'yovvoyi' },
@@ -196,9 +198,7 @@
                 { id: 'maymun', name: 'Maymun', audio: 'sounds/maymun.mp3', nameAudio: 'sounds/maymun_nomi.mp3', img: 'images/maymun.png', type: 'yovvoyi' },
                 { id: 'jirafa', name: 'Jirafa', audio: 'sounds/jirafa.mp3', nameAudio: 'sounds/jirafa_nomi.mp3', img: 'images/jirafa.png', type: 'yovvoyi' },
                 { id: 'zebra', name: 'Zebra', audio: 'sounds/zebra.mp3', nameAudio: 'sounds/zebra_nomi.mp3', img: 'images/zebra.png', type: 'yovvoyi' },
-                { id: 'karkidon', name: 'Karkidon', audio: 'sounds/karkidon.mp3', nameAudio: 'sounds/karkidon_nomi.mp3', img: 'images/karkidon.png', type: 'yovvoyi' },
-                { id: 'begemot', name: 'Begemot', audio: 'sounds/begemot.mp3', nameAudio: 'sounds/begemot_nomi.mp3', img: 'images/begemot.png', type: 'yovvoyi' },
-                { id: 'qurbaqa', name: 'Qurbaqa', audio: 'sounds/qurbaqa.mp3', nameAudio: 'sounds/qurbaqa_nomi.mp3', img: 'images/qurbaqa.png', type: 'yovvoyi' }
+                { id: 'begemot', name: 'Begemot', audio: 'sounds/begemot.mp3', nameAudio: 'sounds/begemot_nomi.mp3', img: 'images/begemot.png', type: 'yovvoyi' }
             ]
         };
 
@@ -218,19 +218,22 @@
             document.getElementById('stars').innerText = "0";
             document.getElementById('menu-screen').style.display = 'none';
             document.getElementById('game-area').style.display = 'block';
-            document.getElementById('standard-board').style.display = 'none';
-            document.getElementById('sort-board').style.display = 'none';
-            document.getElementById('countdown-view').style.display = 'none';
-            document.getElementById('shadow-game-view').style.display = 'none';
+            
+            // Barcha qismlarni yashirish
+            ['standard-board', 'sort-board', 'countdown-view', 'shadow-game-view'].forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
 
             if(mode === 'uy' || mode === 'yovvoyi') {
                 gameList = shuffle([...animalsData[mode]]);
-                document.getElementById('game-title').innerText = "O'rganamiz";
+                document.getElementById('game-title').innerText = "Tanishuv";
+                document.getElementById('standard-board').style.display = 'grid';
                 renderStandard();
             } else if(mode === 'test') {
-                document.getElementById('game-title').innerText = "Ovozli Test";
+                document.getElementById('game-title').innerText = "Ovozni top";
                 gameList = shuffle(allAnimals).slice(0, 10);
-                renderStandard(); startQuiz();
+                document.getElementById('standard-board').style.display = 'grid';
+                startQuiz();
             } else if(mode === 'sort') {
                 document.getElementById('game-title').innerText = "Saralash";
                 document.getElementById('sort-board').style.display = 'block';
@@ -242,7 +245,7 @@
                 gameList = shuffle(allAnimals).slice(0, 10);
                 startCountCycle();
             } else if(mode === 'shadow') {
-                document.getElementById('game-title').innerText = "Soyasini top!";
+                document.getElementById('game-title').innerText = "Soyani top";
                 document.getElementById('shadow-game-view').style.display = 'block';
                 gameList = shuffle(allAnimals).slice(0, 10);
                 showNextShadow();
@@ -251,7 +254,7 @@
 
         function renderStandard() {
             const board = document.getElementById('standard-board');
-            board.style.display = 'grid'; board.innerHTML = '';
+            board.innerHTML = '';
             let list = (currentMode === 'test') ? shuffle([...gameList]) : gameList;
             list.forEach(a => {
                 const card = document.createElement('div');
@@ -269,19 +272,18 @@
                     document.getElementById('stars').innerText = score;
                     playAudio('sounds/barakalla.mp3'); showCelebration();
                     setTimeout(() => { turn++; startQuiz(); }, 2000);
-                } else { playAudio('sounds/notogri.mp3'); }
+                } else { playAudio('sounds/notogri.mp3'); el.style.borderColor = "var(--danger)"; setTimeout(()=> el.style.borderColor="transparent", 500); }
             } else {
                 playAudio(animal.nameAudio);
-                setTimeout(() => playAudio(animal.audio), 2500);
+                setTimeout(() => playAudio(animal.audio), 1500);
             }
         }
 
         function showNextSort() {
             if(turn >= 10) { finishGame(); return; }
             targetAnimal = gameList[turn];
-            document.getElementById('sort-target').innerHTML = `<div class="card" style="width:200px; margin:auto;"><img src="${targetAnimal.img}"><p>${targetAnimal.name}</p></div>`;
+            document.getElementById('sort-target').innerHTML = `<div class="card" style="width:160px; margin:auto;"><img src="${targetAnimal.img}"><p>${targetAnimal.name}</p></div>`;
             playAudio(targetAnimal.nameAudio);
-            setTimeout(() => playAudio(targetAnimal.audio), 2500);
         }
 
         function checkSort(type) {
@@ -318,14 +320,13 @@
                 };
                 optionsBoard.appendChild(card);
             });
-            playAudio('sounds/savol_soya.mp3');
         }
 
         function startQuiz() {
             if(turn >= 10) { finishGame(); return; }
             targetAnimal = gameList[turn]; renderStandard(); 
             playAudio('sounds/savol_ovoz.mp3');
-            setTimeout(() => playAudio(targetAnimal.audio), 3500);
+            setTimeout(() => playAudio(targetAnimal.audio), 2500);
         }
 
         function startCountCycle() {
@@ -333,44 +334,36 @@
             clearInterval(timerInterval);
             let count = 10; targetAnimal = gameList[turn];
             const img = document.getElementById('mystery-img');
-            img.style.opacity = '0'; img.className = 'mystery-img blur'; img.src = targetAnimal.img;
+            img.classList.remove('reveal'); img.classList.add('blur');
+            img.src = targetAnimal.img; img.style.opacity = '0.4';
             document.getElementById('reveal-text').style.display = 'none';
             document.getElementById('next-btn').style.display = 'none';
             document.getElementById('timer').innerText = count;
 
             playAudio('sounds/savol_sanoq.mp3');
-            setTimeout(() => {
-                img.style.opacity = '0.6';
-                playAudio(targetAnimal.audio);
-                timerInterval = setInterval(() => {
-                    if(count > 0) playAudio(`sounds/${count}.mp3`);
-                    document.getElementById('timer').innerText = count;
-                    if(count <= 0) { clearInterval(timerInterval); revealAnimal(); }
-                    count--;
-                }, 1500);
-            }, 3000);
+            timerInterval = setInterval(() => {
+                count--;
+                document.getElementById('timer').innerText = count;
+                if(count <= 0) { clearInterval(timerInterval); revealAnimal(); }
+            }, 1000);
         }
 
         function revealAnimal() {
             const img = document.getElementById('mystery-img');
-            img.className = 'mystery-img reveal';
-            playAudio('sounds/bu.mp3'); showCelebration();
-            setTimeout(() => {
-                playAudio(targetAnimal.nameAudio);
-                document.getElementById('reveal-text').innerText = "Bu — " + targetAnimal.name + "!";
-                document.getElementById('reveal-text').style.display = 'block';
-                document.getElementById('next-btn').style.display = 'block';
-                turn++;
-            }, 1500);
+            img.classList.remove('blur'); img.classList.add('reveal');
+            playAudio(targetAnimal.nameAudio);
+            document.getElementById('reveal-text').innerText = "Bu — " + targetAnimal.name + "!";
+            document.getElementById('reveal-text').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'block';
+            turn++;
         }
 
         function finishGame() {
-            playAudio('sounds/tugadi.mp3');
             document.getElementById('final-score').innerText = `${score}/${turn}`;
             document.getElementById('modal').style.display = 'flex';
         }
 
-        function playAudio(src) { new Audio(src).play().catch(e => {}); }
+        function playAudio(src) { new Audio(src).play().catch(e => console.log("Audio xatosi")); }
         function goHome() { location.reload(); }
     </script>
 </body>
